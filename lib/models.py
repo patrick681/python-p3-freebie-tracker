@@ -20,6 +20,11 @@ class Company(db.Model):
 
     def __repr__(self):
         return f'<Company {self.name}>'
+    def give_freebie(self, dev, item_name, value):
+        new_freebie = Freebie(item_name=item_name, value=value, dev=dev, company=self)
+        db.session.add(new_freebie)
+        db.session.commit()
+
 
 class Dev(db.Model):
     __tablename__ = 'devs'
@@ -30,6 +35,14 @@ class Dev(db.Model):
 
     def __repr__(self):
         return f'<Dev {self.name}>'
+    def received_one(self, item_name):
+        return any(f.item_name == item_name for f in self.freebies)
+
+def give_away(self, dev, freebie):
+    if freebie in self.freebies:
+        freebie.dev = dev
+        db.session.commit()
+
 
 class Freebie(db.Model):
     __tablename__ = 'freebies'
@@ -45,3 +58,5 @@ class Freebie(db.Model):
 
     def __repr__(self):
         return f'<Freebie {self.item_name} (${self.value})>'
+    def print_details(self):
+        print(f"{self.dev.name} owns a {self.item_name} from {self.company.name}")
