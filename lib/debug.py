@@ -39,5 +39,13 @@ def run_tests():
         print("\nFreebie and its company and dev:")
         print(freebie, freebie.company, freebie.dev)
 
+        print("\n[Dev.all()] Listing all devs using classmethod:")
+        for dev in Dev.all():
+            print(dev)
+
+        print("\n[Freebie.print_details()] on the first freebie:")
+        if freebie:
+            freebie.print_details()
+            
 if __name__ == "__main__":
     run_tests()

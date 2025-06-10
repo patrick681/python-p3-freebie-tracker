@@ -24,6 +24,10 @@ class Company(db.Model):
         new_freebie = Freebie(item_name=item_name, value=value, dev=dev, company=self)
         db.session.add(new_freebie)
         db.session.commit()
+    @classmethod
+    def oldest_company(cls):
+        return db.session.query(cls).order_by(cls.founding_year).first()
+
 
 
 class Dev(db.Model):
@@ -38,11 +42,14 @@ class Dev(db.Model):
     def received_one(self, item_name):
         return any(f.item_name == item_name for f in self.freebies)
 
-def give_away(self, dev, freebie):
-    if freebie in self.freebies:
-        freebie.dev = dev
-        db.session.commit()
+    def give_away(self, dev, freebie):
+        if freebie in self.freebies:
+            freebie.dev = dev
+            db.session.commit()
 
+    @classmethod
+    def all(cls):
+        return db.session.query(cls).all()
 
 class Freebie(db.Model):
     __tablename__ = 'freebies'
@@ -60,3 +67,7 @@ class Freebie(db.Model):
         return f'<Freebie {self.item_name} (${self.value})>'
     def print_details(self):
         print(f"{self.dev.name} owns a {self.item_name} from {self.company.name}")
+
+    @classmethod
+    def all(cls):
+        return db.session.query(cls).all()

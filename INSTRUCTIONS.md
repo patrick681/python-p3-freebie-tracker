@@ -55,6 +55,9 @@ source .venv/bin/activate       # On Windows: .venv\Scripts\activate
 ```bash
 pip install -r requirements.txt
 ```
+bonus: ensure you have the selected python interpreter within the venv:
+  press ctrl+shit+p
+  select the interpreter found in the venv dir (ven/...)
 
 4. **Initialize the database**
 
